@@ -18,4 +18,9 @@ public class ScoreManager : MonoBehaviour
         currentScore++;
         scoreText.text = $"Score: {currentScore}";
     }
+    public void SetGameOverText()
+    {
+        scoreText.text = $"GameOver";
+
+    }
 }

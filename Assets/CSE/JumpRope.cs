@@ -47,7 +47,7 @@ public class JumpRope : MonoBehaviour
     private void Update()
     {
         if (handleA == null || handleB == null ) return;
-      //  if (isGameOver) return;
+        if (isGameOver) return;
 
         UpdateRotation();
 
@@ -131,7 +131,8 @@ public class JumpRope : MonoBehaviour
             if (Physics.CheckCapsule(prevPos, currentPos, hitThickness, playerLayer))
             {
                 Debug.Log("Game Over");
-                isGameOver = true; 
+                isGameOver = true;
+                ScoreManager.Instance.SetGameOverText();
                 return;
             }
 
