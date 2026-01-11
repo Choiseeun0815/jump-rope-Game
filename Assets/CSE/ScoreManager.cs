@@ -17,12 +17,26 @@ public class ScoreManager : MonoBehaviour
     {
         Instance = this;
         if (jumpTimingText != null) jumpTimingText.text = "";
+        if (perpectComboText != null) perpectComboText.text = "";
     }
 
     public void SetScoreText()
     {
         currentScore++;
         scoreText.text = $"Score: {currentScore}";
+    }
+    public void SetPerpectComboText(bool isPerpect)
+    {
+        if(isPerpect)
+        {
+            perpectCombo++;
+            perpectComboText.text = $"Combo: {perpectCombo}";
+        }
+        else
+        {
+            perpectCombo = 0;
+            perpectComboText.text = "";
+        }
     }
     public void SetGameOverText()
     {

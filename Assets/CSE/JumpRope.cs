@@ -111,13 +111,29 @@ public class JumpRope : MonoBehaviour
     }
     public (string text, Color color) GetJumpTimingCheck()
     {
-        //180도가 딱 바닥에 줄이 내려왔을 때.
+        bool isPerpect = false;
 
-        if (currentAngle >= 135f && currentAngle < 175f)
-            return ("Perfect!", Color.yellow);
-        else if (currentAngle >= 95f && currentAngle < 135f)
-            return ("Great", Color.green);
-        else return ("Too Slow", Color.cyan);
+        //180도가 딱 바닥에 줄이 내려왔을 때를 기준으로 범위 지정
+        if (currentAngle >= 135f && currentAngle < 175f) //Perfect
+        {
+            isPerpect = true;
+            ScoreManager.Instance.SetPerpectComboText(isPerpect);
+            return ("Perfect!!", Color.yellow);
+        }    
+        else if (currentAngle >= 95f && currentAngle < 135f) //Great
+        {
+            isPerpect = false;
+            ScoreManager.Instance.SetPerpectComboText(isPerpect);
+            return ("Great!", Color.green);
+        }
+        else
+        {
+            isPerpect = false;
+            ScoreManager.Instance.SetPerpectComboText(isPerpect);
+            return ("Too Slow...", Color.cyan);
+        }
+
+        
     }
     void CheckCollisionOptimized(Vector3 controlPoint)
     {
