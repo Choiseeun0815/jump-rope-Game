@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class JumpRope : MonoBehaviour
 {
-    [Header("필수 할당")]
+    //줄을 돌리는 점이 될 A와 B의 위치
     public Transform handleA;
     public Transform handleB;
 
@@ -31,7 +31,7 @@ public class JumpRope : MonoBehaviour
     private LineRenderer lineRenderer;
     private float currentAngle = 0f;
     private bool hasScoredThisRound = false;
-    private bool isGameOver = false;
+    public bool IsGameOver { get; private set; } = false;
 
     private Vector3[] visualPositions;
 
@@ -47,7 +47,7 @@ public class JumpRope : MonoBehaviour
     private void Update()
     {
         if (handleA == null || handleB == null ) return;
-        if (isGameOver) return;
+        if (IsGameOver) return;
 
         UpdateRotation();
 
@@ -59,7 +59,7 @@ public class JumpRope : MonoBehaviour
 
     void UpdateRotation()
     {
-        if (isRotating && !isGameOver)
+        if (isRotating && !IsGameOver)
         {
             currentAngle += rotationSpeed * Time.deltaTime;
             if (!hasScoredThisRound && currentAngle >= 180f) // 180f => 줄이 최초로 바닥에 닿는 시점
@@ -109,7 +109,16 @@ public class JumpRope : MonoBehaviour
         }
         lineRenderer.SetPositions(visualPositions);
     }
+    public (string text, Color color) GetJumpTimingCheck()
+    {
+        //180도가 딱 바닥에 줄이 내려왔을 때.
 
+        if (currentAngle >= 135f && currentAngle < 175f)
+            return ("Perfect!", Color.yellow);
+        else if (currentAngle >= 95f && currentAngle < 135f)
+            return ("Great", Color.green);
+        else return ("Too Slow", Color.cyan);
+    }
     void CheckCollisionOptimized(Vector3 controlPoint)
     {
         float startT = ignoreHandleRatio;
@@ -131,7 +140,7 @@ public class JumpRope : MonoBehaviour
             if (Physics.CheckCapsule(prevPos, currentPos, hitThickness, playerLayer))
             {
                 Debug.Log("Game Over");
-                isGameOver = true;
+                IsGameOver = true;
                 ScoreManager.Instance.SetGameOverText();
                 return;
             }
