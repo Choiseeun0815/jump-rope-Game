@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private float _chargeTime;
     private bool _grounded;
 
+    [SerializeField] JumpRope jumpRope;
     private void Reset()
     {
         rb = GetComponent<Rigidbody>();
@@ -120,6 +122,8 @@ public class PlayerController : MonoBehaviour
         // 차징 중에는 이동 입력 막고 싶으면 여기서 강제로 해제
         _leftHeld = false;
         _rightHeld = false;
+
+        StartCoroutine(CheckJumpTimingRoutine());
     }
 
     public void JumpUp()
@@ -133,5 +137,16 @@ public class PlayerController : MonoBehaviour
         float impulse = Mathf.Lerp(minJumpImpulse, maxJumpImpulse, t);
 
         rb.AddForce(Vector3.up * impulse, ForceMode.Impulse);
+    }
+
+
+    IEnumerator CheckJumpTimingRoutine()
+    {
+        var res = jumpRope.GetJumpTimingCheck(); //점프 판정 결과
+
+        yield return new WaitForSeconds(.2f); //점프 후 줄과 충돌할 수도 있으니 잠시 대기
+
+        if (!jumpRope.IsGameOver)
+            ScoreManager.Instance.ShowJumpTimingText(res.text, res.color);
     }
 }

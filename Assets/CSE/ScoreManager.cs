@@ -1,0 +1,61 @@
+using System.Collections;
+using TMPro;
+using UnityEngine;
+
+public class ScoreManager : MonoBehaviour
+{
+    static public ScoreManager Instance;
+    
+    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI jumpTimingText;
+    [SerializeField] TextMeshProUGUI perpectComboText;
+
+    public int currentScore { get; private set; } = 0;
+    private int perpectCombo = 0;
+
+    private void Awake()
+    {
+        Instance = this;
+        if (jumpTimingText != null) jumpTimingText.text = "";
+        if (perpectComboText != null) perpectComboText.text = "";
+    }
+
+    public void SetScoreText()
+    {
+        currentScore++;
+        scoreText.text = $"Score: {currentScore}";
+    }
+    public void SetPerpectComboText(bool isPerpect)
+    {
+        if(isPerpect)
+        {
+            perpectCombo++;
+            perpectComboText.text = $"Combo: {perpectCombo}";
+        }
+        else
+        {
+            perpectCombo = 0;
+            perpectComboText.text = "";
+        }
+    }
+    public void SetGameOverText()
+    {
+        scoreText.text = $"GameOver";
+        if (jumpTimingText != null) jumpTimingText.text = "";
+    }
+    public void ShowJumpTimingText(string text, Color color)
+    {
+        if (jumpTimingText == null) return;
+
+        jumpTimingText.text = text;
+        jumpTimingText.color = color;
+
+        StopAllCoroutines();
+        StartCoroutine(HidePerpectText());
+    }
+    IEnumerator HidePerpectText()
+    {
+        yield return new WaitForSeconds(.5f);
+        jumpTimingText.text = "";
+    }
+}
