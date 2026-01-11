@@ -11,6 +11,7 @@ public class JumpRope : MonoBehaviour
     public float rotationSpeed = 250f;
     [SerializeField] int speedUpTerm = 20; //속도를 몇 점마다 올려줄 것인지
     [SerializeField] float speedUpValue = 25f; //속도를 열마나 올려줄 것인지
+    [SerializeField] float maxRotationSpeed = 500f; //속도 최대치
     public bool isRotating = true;
 
     [Range(10, 100)]
@@ -19,7 +20,7 @@ public class JumpRope : MonoBehaviour
     public int collisionSegmentCount = 40;
 
     [Range(0f, 0.5f)]
-    public float ignoreHandleRatio = 0.2f; 
+    public float ignoreHandleRatio = 0.2f; //줄의 손잡이 부분 근처는 충돌 검사 x(추후 수치 조절)
 
     public bool useFloorCollision = true;
     public float floorY = 0f;
@@ -67,8 +68,8 @@ public class JumpRope : MonoBehaviour
 
                 if (ScoreManager.Instance.currentScore % speedUpTerm == 0)
                 {
-                    //속도 최대치는 500, 최소치는 250
-                    rotationSpeed = Mathf.Clamp(rotationSpeed + speedUpValue, 250, 550); 
+                    float changedRotationSpeed = rotationSpeed + speedUpValue;
+                    rotationSpeed = Mathf.Min(changedRotationSpeed, maxRotationSpeed);
                 }
             }
 
