@@ -432,6 +432,8 @@ MonoBehaviour:
   handleB: {fileID: 1158714932}
   ropeRadius: 8
   rotationSpeed: 250
+  speedUpTerm: 10
+  speedUpValue: 25
   isRotating: 1
   visualSegmentCount: 20
   collisionSegmentCount: 40
@@ -1267,8 +1269,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278254591
-  m_fontColor: {r: 1, g: 0.9860897, b: 0, a: 1}
+    rgba: 4293722026
+  m_fontColor: {r: 0.6650944, g: 1, b: 0.9248149, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

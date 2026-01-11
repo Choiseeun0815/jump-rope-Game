@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI jumpTimingText;
     [SerializeField] TextMeshProUGUI perpectComboText;
 
-    private int currentScore = 0;
+    public int currentScore { get; private set; } = 0;
     private int perpectCombo = 0;
 
     private void Awake()
